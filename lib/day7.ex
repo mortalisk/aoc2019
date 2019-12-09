@@ -134,35 +134,26 @@ defmodule Day7 do
     IO.puts(result)
   end
 
-  def runmachines(machines) do
-    [lastmachine = %{stdout: lastout} | revrest]
-      = Enum.reverse(machines)
-
+  def runmachines(machines, input) do
     if Enum.all?(machines, fn %{exited: e} -> e == true end) do
-      hd(lastout) # soulution
+      input # soulution
     else
+      [lastran = %{stdout: [lout|lrest]} | restran] =
+        Enum.reduce(
+          machines,
+          [%{stdout: [input]}], # dummy previous
+          fn m = %{stdin: stdin}, [prev = %{stdout: [pout|prest]} | mrest] ->
+            ran = exec(%{m | stdin: stdin ++ [pout]})
+            prev = %{prev|stdout: prest}
+            [ran, prev | mrest]
+          end)
 
-    machines =
-        [%{lastmachine | stdout: []} | revrest]
-        |> Enum.reverse()
-
-      dummy = %{stdout: lastout}
-      machines = Enum.reduce(
-        machines,
-        [dummy],
-        fn m  = %{stdin: stdin},
-           [ prev = %{stdout: prevout} | mrest] ->
-
-          mrun = exec(%{m | stdin: stdin ++ Enum.reverse(prevout)})
-          prev = %{prev | stdout: []}
-
-          [mrun, prev | mrest]
-
-        end)
+      machines =
+        [%{lastran|stdout: lrest} | restran]
         |> Enum.reverse()
         |> tl() # drop dummy
 
-      runmachines(machines)
+      runmachines(machines, lout)
     end
 
   end
@@ -176,13 +167,9 @@ defmodule Day7 do
       permutations([5, 6, 7, 8, 9])
         |> Enum.map(fn phases ->
             machines =
-              Enum.reduce(phases, [], fn phase, machines  ->
-                  machines ++ [start(mem, [phase], [])]
-              end)
-            [last| rest] = Enum.reverse(machines)
-            machines = [%{last | stdout: [0] }| rest] |> Enum.reverse()
-            runmachines(machines)
-            end)
+              Enum.map(phases,&(start(mem, [&1], [])))
+            runmachines(machines, 0)
+          end)
         |> Enum.max()
     IO.puts(result)
   end
