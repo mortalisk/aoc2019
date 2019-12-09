@@ -66,7 +66,7 @@ defmodule Day9 do
 
   def run([4, a, _, _], [am | _], program = %{stdout: out}) do
 
-    exec(incpos(%{program|stdout: [IO.inspect(read(program, a, am)) | out]}, 2))
+    exec(incpos(%{program|stdout: [read(program, a, am) | out]}, 2))
   end
 
   def run([5, a, b, _c], [am, bm, _cm], program) do
@@ -130,14 +130,14 @@ defmodule Day9 do
   end
 
   def part1() do
-    p = %{stdout: out} =
+    %{stdout: out} =
       read("input9.txt")
       #[109,1,204,-1,1001,100,1,100,1008,100,16,101,1006,101,0,99]
       |> init()
       |> start([2], [])
       |> exec()
 
-    IO.inspect p
+    IO.inspect out
   end
 
 end
