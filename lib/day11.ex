@@ -118,8 +118,6 @@ defmodule Day11 do
     [code | rest] = readinst(p, nextpos)
     inst = instruction(code)
     modes = parmodes(code)
-    #IO.inspect(p, charlists: false)
-    #IO.puts "pos: #{nextpos}: #{code} -> #{inst}, #{inspect rest}, #{inspect modes}"
     run([inst|rest], modes, p)
   end
 
@@ -143,7 +141,6 @@ defmodule Day11 do
 
     program =
       read("input11.txt")
-      #[109,1,204,-1,1001,100,1,100,1008,100,16,101,1006,101,0,99]
       |> init()
       |> start([], [])
 
@@ -157,7 +154,6 @@ defmodule Day11 do
           p = %{p|stdout: rest}
           newdir = turn(dirv, dirout)
           newpos = move(pos, newdir)
-          #IO.puts "dir #{inspect dirv}, pos #{inspect pos}, turn: #{dirout} -> newdir: #{inspect newdir}, newpos: #{inspect newpos}"
           {pos, {hull, p, newpos, newdir}}
       end
     end)
@@ -176,7 +172,6 @@ defmodule Day11 do
 
     program =
       read("input11.txt")
-      #[109,1,204,-1,1001,100,1,100,1008,100,16,101,1006,101,0,99]
       |> init()
       |> start([], [])
 
@@ -191,13 +186,10 @@ defmodule Day11 do
             p = %{p|stdout: rest}
             newdir = turn(dirv, dirout)
             newpos = move(pos, newdir)
-            #IO.puts "dir #{inspect dirv}, pos #{inspect pos}, turn: #{dirout} -> newdir: #{inspect newdir}, newpos: #{inspect newpos}"
             {hull, {hull, p, newpos, newdir}}
         end
       end)
       |> Enum.at(-1)
-      #|> Enum.filter(fn {_pos, col} -> col == "\#" end)
-      #|> Enum.into(Map.new)
 
     minx = paintedhull |> Enum.reduce(10000, fn {[x, _], _}, minx -> min(x, minx) end)
     maxx = paintedhull |> Enum.reduce(-10000, fn {[x, _], _}, maxx -> max(x, maxx) end)
