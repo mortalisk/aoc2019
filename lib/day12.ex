@@ -32,7 +32,7 @@ defmodule Day12 do
         |> Enum.map(fn p -> Enum.map(p, &String.to_integer/1) end)
         |> Enum.map(fn p -> [p, [0,0,0]] end)
 
-    newmoons = 0..999 |> Enum.reduce(moons, fn _, m -> updatemoons(m) end)
+    newmoons = 0..999 |> Enum.reduce(moons, fn _, m -> updatemoons(paint(m)) end)
 
     newmoons
       |> Enum.map(fn [p, v] ->
@@ -53,6 +53,19 @@ defmodule Day12 do
 
   def ns(moons, n) do
     Enum.map(moons, fn [p, v] -> [Enum.at(p, n), Enum.at(v, n)] end)
+  end
+
+  def paint(moons) do
+    :timer.sleep(200)
+    IO.puts IO.ANSI.clear()
+    for [[x, y, _z], _] <- moons do
+      IO.write IO.ANSI.cursor(max(0,y+30), 0)
+      IO.write Stream.cycle(' ') |> Enum.take(x + 40)
+      IO.write "\#"
+    end
+
+    IO.write IO.ANSI.cursor(0, 0)
+    moons
   end
 
   def repeat(moons, npos) do
@@ -80,5 +93,10 @@ defmodule Day12 do
     yr = repeat(moons, 1)
     zr = repeat(moons, 2)
     IO.puts(lcm(xr, lcm(yr, zr)))
+  end
+
+  def test do
+
+
   end
 end
