@@ -122,23 +122,7 @@ defmodule Day13 do
     run([inst|rest], modes, p)
   end
 
-  def permutations([]), do: [[]]
-  def permutations(list) do
-    for head <- list, tail <- permutations(list -- [head]), do: [head | tail]
-  end
-
-  def write(p = %{stdin: stdin}, val), do: %{p|stdin: [val|stdin]}
-
-  def move([x, y], [xv, yv]), do: [x+xv, y+yv]
-  def turn([xv, yv], 0), do: [-yv, xv]
-  def turn([xv, yv], 1), do: [yv, -xv]
-
   def part1() do
-    hull = %{}
-    posstart = [0,0]
-    dirstart = [0,1]
-    black = 0
-    white = 1
 
     program =
       read("input13.txt")
@@ -217,7 +201,6 @@ defmodule Day13 do
             {bx, _by} = find(screen, 4)
             {px, _py} = find(screen, 3)
             scr = score(screen)
-            #IO.puts(scr)
             input =
               cond do
                  px < bx -> 1
