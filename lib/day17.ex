@@ -43,15 +43,12 @@ defmodule Day17 do
     mem =
       Day15.read("input17.txt")
       |> Day15.init()
-    prog1 = Day15.start(mem, [], [])
 
     input = 'A,B,A,B,C,B,C,A,C,C\nR,12,L,10,L,10\nL,6,L,12,R,12,L,4\nL,12,R,12,L,6\nn\n'
 
-    prog2 = %{prog: %{0 => m0}} = Day15.start(Map.put(mem, 0 , 2), input, [])
-    IO.inspect m0
+    prog2 = Day15.start(Map.put(mem, 0 , 2), input, [])
 
     %{stdout: [lastout|_]} = Day15.exec(prog2)
-    #points = Enum.reverse(out)
     IO.puts lastout
 
   end
