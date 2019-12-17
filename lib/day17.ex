@@ -11,9 +11,8 @@ def create_map do
     |> Enum.reverse()
     |> Enum.chunk_by(&(&1 == ?\n))
     |> Enum.reject(&(Enum.member?(&1, ?\n)))
-    #> IO.inspect( limit: :infinity)
 
-  map = lines
+  lines
     |> Enum.with_index()
     |> Enum.flat_map(fn {l, li} ->
       Enum.with_index(l)
