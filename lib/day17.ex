@@ -1,11 +1,11 @@
 defmodule Day17 do
 def create_map do
   prog =
-    Day15.read("input17.txt")
-    |> Day15.init()
-    |> Day15.start([], [])
+    IC.read("input17.txt")
+    |> IC.init()
+    |> IC.start([], [])
 
-  %{stdout: out} = Day15.exec(prog)
+  %{stdout: out} = IC.exec(prog)
   lines =
     out
     |> Enum.reverse()
@@ -121,14 +121,14 @@ end
        end
 
     mem =
-      Day15.read("input17.txt")
-      |> Day15.init()
+      IC.read("input17.txt")
+      |> IC.init()
 
     # this was the manual solution input = 'A,B,A,B,C,B,C,A,C,C\nR,12,L,10,L,10\nL,6,L,12,R,12,L,4\nL,12,R,12,L,6\nn\n'
 
-    prog2 = Day15.start(Map.put(mem, 0 , 2), input, [])
+    prog2 = IC.start(Map.put(mem, 0 , 2), input, [])
 
-    %{stdout: [lastout|_]} = Day15.exec(prog2)
+    %{stdout: [lastout|_]} = IC.exec(prog2)
     IO.puts lastout
 
   end
