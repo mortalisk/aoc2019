@@ -47,25 +47,19 @@ end
   def add({x, y}, {x1, y1}), do: {x+x1, y+y1}
 
   def res(path, a, b, c) do
-    if Enum.join(a, "") |> String.length() > 20
-      or Enum.join(b, "") |> String.length()  > 20
-      or Enum.join(c, "") |> String.length()  > 20 do
-      nil
-    else
-      Enum.reduce_while(1..11, {path, []}, fn n, {path, r} ->
-        cond do
-          n == 11 -> {:halt, r}
-          Enum.count(path) == 0 and Enum.count(r) <= 10 -> {:halt, r}
-          true ->
-            cond do
-              List.starts_with?(path, a) -> {:cont, {Enum.drop(path, Enum.count(a)), [?A|r]}}
-              List.starts_with?(path, b) -> {:cont, {Enum.drop(path, Enum.count(b)), [?B|r]}}
-              List.starts_with?(path, c) -> {:cont, {Enum.drop(path, Enum.count(c)), [?C|r]}}
-              true -> {:halt, nil}
-            end
-        end
-      end)
-    end
+    Enum.reduce_while(1..11, {path, []}, fn n, {path, r} ->
+      cond do
+        n == 11 -> {:halt, r}
+        Enum.count(path) == 0 and Enum.count(r) <= 10 -> {:halt, r}
+        true ->
+          cond do
+            List.starts_with?(path, a) -> {:cont, {Enum.drop(path, Enum.count(a)), [?A|r]}}
+            List.starts_with?(path, b) -> {:cont, {Enum.drop(path, Enum.count(b)), [?B|r]}}
+            List.starts_with?(path, c) -> {:cont, {Enum.drop(path, Enum.count(c)), [?C|r]}}
+            true -> {:halt, nil}
+          end
+      end
+    end)
   end
 
   def part2 do
@@ -103,10 +97,10 @@ end
     l = Enum.count(path)
 
     [input|_] =
-      for a <- 1..15,
-      c <- (l-16)..(l-1),
+      for a <- 1..10,
+      c <- (l-10)..(l-1),
       b <- (a+1)..(c-2),
-      b2 <- (b+1)..(c-1),
+      b2 <- (b+1)..(min(c-1, b + 11)),
       suba = Enum.take(path, a),
       subb = Enum.drop(path, b) |> Enum.take(b2 - b),
       subc = Enum.drop(path, c),
