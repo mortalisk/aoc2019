@@ -65,7 +65,6 @@ defmodule Day19 do
       [1, 1, _, _] -> find(x+1, y, prog)
       [1, 0, _, _] -> find(x, y+1, prog)
       [_, _, 1, 0] -> find(x+1, y, prog)
-      #[_, _, 0, 0] -> find(x, y+1, prog)
     end
   end
 
@@ -80,24 +79,6 @@ defmodule Day19 do
     [x, y] = find(fromx, fromy, prog)
 
     IO.puts (x*10000+y)
-
-    # input = for x <- fromx..(fromx + 200), y <- fromy..(fromy + 100), do: [x,y]
-    #
-    # IO.write IO.ANSI.clear()
-    # map =
-    #   input
-    #   |> Enum.map(fn input = [x, y] ->
-    #     %{stdout: out} =
-    #       prog
-    #       |> IC.start(input, [])
-    #       |> IC.exec()
-    #     o = hd(out)
-    #       IO.write IO.ANSI.cursor(y-fromy, x-fromx)
-    #       IO.write (if o == 0 do "." else "\#" end)
-    #       {{x, y}, o}
-    #     end)
-    #     |> Map.new()
-        #|> IO.inspect()
 
   end
 end
