@@ -1,28 +1,4 @@
 defmodule Day19 do
-  def create_map do
-    prog =
-      IC.read("input17.txt")
-      |> IC.init()
-      |> IC.start([], [])
-
-    %{stdout: out} = IC.exec(prog)
-    lines =
-      out
-      |> Enum.reverse()
-      |> Enum.chunk_by(&(&1 == ?\n))
-      |> Enum.reject(&(Enum.member?(&1, ?\n)))
-
-    lines
-      |> Enum.with_index()
-      |> Enum.flat_map(fn {l, li} ->
-        Enum.with_index(l)
-          |> Enum.map(fn {p, pi} ->
-              {{pi, li}, p}
-          end)
-      end)
-    |> Map.new()
-  end
-
   def part1 do
     prog =
       IC.read("input19.txt")
@@ -57,7 +33,6 @@ defmodule Day19 do
     probes =
       [[x+99,y], [x+100, y], [x, y+99], [x, y+100]]
         |> Enum.map(fn p -> probe(prog, p) end)
-    if rem(x, 1000) == 0 do IO.puts "try #{x}, #{y} -> #{inspect probes}" end
     case probes do
       [1, 0, 1, 0] -> [x, y]
       [0, 0, 0, 0] -> find(x, y+1, prog)
