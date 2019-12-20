@@ -160,7 +160,7 @@ defmodule Day13 do
 
   def print(screen) do
     :timer.sleep(50)
-    IO.write IO.ANSI.clear()
+    #IO.write IO.ANSI.clear()
     IO.write IO.ANSI.color(5, 5, 5)
     screen
       |> Enum.each(fn {{x, y}, n} ->
